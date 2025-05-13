@@ -1,11 +1,20 @@
-export default function SearchBar() {
+export default function SearchBar({ onSubmit }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit(event.target.elements.topik.value);
+
+    event.target.reset();
+  };
+
   return (
     <header>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
+          name="topik"
           type="text"
-          autocomplete="off"
-          autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
         <button type="submit">Search</button>
