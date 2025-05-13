@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { fetchImagesApi } from "./services/api";
 import SearchBar from "./components/SearchBar/SearchBar";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 export default function App() {
   const [result, setResult] = useState([]);
@@ -37,11 +38,7 @@ export default function App() {
   return (
     <>
       <SearchBar onSubmit={handleSearch} />
-      {result.length > 0 && (
-        <div>
-          <h1>List</h1>
-        </div>
-      )}
+      {result.length > 0 && <ImageGallery data={result} />}
     </>
   );
 }
