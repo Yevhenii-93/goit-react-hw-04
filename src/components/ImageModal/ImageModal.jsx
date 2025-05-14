@@ -1,7 +1,8 @@
 import Modal from "react-modal";
 Modal.setAppElement("#root");
 
-export default function ImageModal({ isOpen, onRequestClose, imgSize }) {
+export default function ImageModal({ isOpen, onRequestClose, img }) {
+  console.log(img);
   return (
     <Modal
       isOpen={isOpen}
@@ -30,7 +31,7 @@ export default function ImageModal({ isOpen, onRequestClose, imgSize }) {
         },
       }}
     >
-      <img src={imgSize} />
+      {/* <img src={img.urls.regular} /> */}
     </Modal>
   );
 }

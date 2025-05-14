@@ -18,15 +18,15 @@ export default function App() {
   const [hasMore, setHasMore] = useState(true);
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [imgSize, setImgSize] = useState("small");
+  const [img, setImg] = useState(null);
 
-  function openModal() {
-    setImgSize("regular");
+  function openModal(image) {
+    setImg(image);
     setIsOpen(true);
   }
 
   function closeModal() {
-    setImgSize("small");
+    setImg(null);
     setIsOpen(false);
   }
 
@@ -49,8 +49,8 @@ export default function App() {
       try {
         setError(false);
         setLoading(true);
-        const newTopik = await fetchImagesApi(topik, currentPage, imgSize);
-        setResult((prevTopik) => [...prevTopik, ...newTopik]);
+        const newTopik = await fetchImagesApi(topik, currentPage);
+        setResult((prevTopik) => [...prevTopik, ...newTopik.results]);
         setHasMore(newTopik.length > 0);
       } catch {
         setError(true);
@@ -60,7 +60,7 @@ export default function App() {
     }
 
     fetchImages();
-  }, [currentPage, topik, imgSize]);
+  }, [currentPage, topik]);
 
   return (
     <>
@@ -74,11 +74,7 @@ export default function App() {
         <LoadMoreBtn onClick={addPage} />
       )}
 
-      <ImageModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        imgSize={imgSize}
-      />
+      <ImageModal isOpen={modalIsOpen} onRequestClose={closeModal} img={img} />
     </>
   );
 }
