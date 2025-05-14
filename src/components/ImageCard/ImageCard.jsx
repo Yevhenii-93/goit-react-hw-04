@@ -1,6 +1,6 @@
-export default function ImageCard({ data }) {
+export default function ImageCard({ data, onClick }) {
   return (
-    <li>
+    <li onClick={onClick}>
       <img src={data.urls.small} alt={data.description}></img>
     </li>
   );

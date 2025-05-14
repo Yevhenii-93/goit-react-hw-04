@@ -6,6 +6,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./components/ImageModal/ImageModal";
 
 export default function App() {
   const [result, setResult] = useState([]);
@@ -15,6 +16,19 @@ export default function App() {
   const [topik, setTopik] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [imgSize, setImgSize] = useState("small");
+
+  function openModal() {
+    setImgSize("regular");
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setImgSize("small");
+    setIsOpen(false);
+  }
 
   const handleSearch = async (newImages) => {
     setTopik(newImages);
@@ -35,7 +49,7 @@ export default function App() {
       try {
         setError(false);
         setLoading(true);
-        const newTopik = await fetchImagesApi(topik, currentPage);
+        const newTopik = await fetchImagesApi(topik, currentPage, imgSize);
         setResult((prevTopik) => [...prevTopik, ...newTopik]);
         setHasMore(newTopik.length > 0);
       } catch {
@@ -46,17 +60,25 @@ export default function App() {
     }
 
     fetchImages();
-  }, [currentPage, topik]);
+  }, [currentPage, topik, imgSize]);
 
   return (
     <>
       <SearchBar onSubmit={handleSearch} />
-      {result.length > 0 && <ImageGallery data={result} />}
+      {result.length > 0 && (
+        <ImageGallery data={result} onOpenModal={openModal} />
+      )}
       {loading && <FadeLoader color="#921198" />}
       {error && <ErrorMessage />}
       {!loading && hasMore && result.length > 0 && (
         <LoadMoreBtn onClick={addPage} />
       )}
+
+      <ImageModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        imgSize={imgSize}
+      />
     </>
   );
 }
