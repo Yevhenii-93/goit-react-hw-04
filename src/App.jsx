@@ -1,6 +1,6 @@
 import { useEffect, useState, CSSProperties } from "react";
 import { FadeLoader } from "react-spinners";
-import "./App.css";
+import css from "./App.module.css";
 import { fetchImagesApi } from "./services/api";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
@@ -68,7 +68,7 @@ export default function App() {
       {result.length > 0 && (
         <ImageGallery data={result} onOpenModal={openModal} />
       )}
-      {loading && <FadeLoader color="#921198" />}
+      {loading && <FadeLoader className={css.loader} />}
       {error && <ErrorMessage />}
       {!loading && hasMore && result.length > 0 && (
         <LoadMoreBtn onClick={addPage} />
