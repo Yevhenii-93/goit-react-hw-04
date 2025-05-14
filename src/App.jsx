@@ -50,7 +50,7 @@ export default function App() {
         setError(false);
         setLoading(true);
         const newTopik = await fetchImagesApi(topik, currentPage);
-        setResult((prevTopik) => [...prevTopik, ...newTopik.results]);
+        setResult((prevTopik) => [...prevTopik, ...newTopik]);
         setHasMore(newTopik.length > 0);
       } catch {
         setError(true);

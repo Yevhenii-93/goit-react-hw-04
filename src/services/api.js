@@ -11,5 +11,5 @@ export const fetchImagesApi = async (topik, currentPage) => {
       client_id: "KoSiC5hiTAikIxrBYGkBPEKqdDRBs_ratr8eu5iwpY0",
     },
   });
-  return response.data;
+  return response.data.results;
 };
