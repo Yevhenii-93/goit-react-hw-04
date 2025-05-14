@@ -5,6 +5,7 @@ import { fetchImagesApi } from "./services/api";
 import SearchBar from "./components/SearchBar/SearchBar";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 
 export default function App() {
   const [result, setResult] = useState([]);
@@ -13,6 +14,7 @@ export default function App() {
 
   const [topik, setTopik] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const handleSearch = async (newImages) => {
     setTopik(newImages);
@@ -35,6 +37,7 @@ export default function App() {
         setLoading(true);
         const newTopik = await fetchImagesApi(topik, currentPage);
         setResult((prevTopik) => [...prevTopik, ...newTopik]);
+        setHasMore(newTopik.length > 0);
       } catch {
         setError(true);
       } finally {
@@ -51,6 +54,9 @@ export default function App() {
       {result.length > 0 && <ImageGallery data={result} />}
       {loading && <FadeLoader color="#921198" />}
       {error && <ErrorMessage />}
+      {!loading && hasMore && result.length > 0 && (
+        <LoadMoreBtn onClick={addPage} />
+      )}
     </>
   );
 }
